@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vvipwwk.dev</title>
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%235b6af5%22/><text y=%22.9em%22 font-size=%2260%22 x=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22>V</text></svg>" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:        #0a0a0f;
+      --bg-card:   #111118;
+      --border:    rgba(255,255,255,0.07);
+      --accent:    #5b6af5;
+      --accent2:   #8b5cf6;
+      --text:      #e8e8f0;
+      --muted:     #6b6b80;
+      --tag-bg:    rgba(91,106,245,0.12);
+      --tag-text:  #8b9aff;
+      --mono: 'JetBrains Mono', monospace;
+      --display: 'Space Grotesk', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--display);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      background: rgba(10,10,15,0.85) !important;
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .navbar-brand {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      color: var(--accent) !important;
+      letter-spacing: 0.05em;
+    }
+    .nav-link {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted) !important;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--text) !important; }
+
+    /* ── GLOW BLOBS ── */
+    .glow-blob {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .glow-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(91,106,245,0.13) 0%, transparent 70%);
+      top: -120px; left: -120px;
+    }
+    .glow-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(139,92,246,0.09) 0%, transparent 70%);
+      bottom: 0; right: 0;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 2rem; height: 1px;
+      background: var(--accent);
+    }
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle { color: var(--muted); font-size: 1.2rem; }
+    .hero-desc { color: var(--muted); max-width: 520px; line-height: 1.85; }
+
+    /* ── BUTTONS ── */
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.7rem 1.75rem;
+      border-radius: 8px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-accent:hover { opacity: 0.85; transform: translateY(-1px); color: #fff; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-weight: 500;
+      font-size: 0.9rem;
+      padding: 0.7rem 1.75rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── STAT NUMBERS ── */
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em; }
+
+    /* ── SECTION ── */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .section-sub { color: var(--muted); max-width: 480px; }
+    .section-divider { border-color: var(--border); }
+
+    /* ── CARDS ── */
+    .dark-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .dark-card:hover {
+      border-color: rgba(91,106,245,0.4);
+      transform: translateY(-3px);
+    }
+
+    /* ── SKILL TAGS ── */
+    .skill-tag {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.3rem 0.75rem;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border-radius: 100px;
+      border: 1px solid rgba(91,106,245,0.2);
+      display: inline-block;
+      margin: 0.2rem 0.15rem;
+    }
+    .skill-category {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── PROJECT BADGES ── */
+    .badge-sw  { background: rgba(91,106,245,0.15);  color: #8b9aff; border: 1px solid rgba(91,106,245,0.3);  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; }
+    .badge-hw  { background: rgba(245,158,11,0.12);  color: #f59e0b; border: 1px solid rgba(245,158,11,0.3);  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; }
+    .badge-ux  { background: rgba(236,72,153,0.12);  color: #ec4899; border: 1px solid rgba(236,72,153,0.3);  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; }
+    .project-icon { font-size: 1.75rem; }
+    .project-title { font-size: 1.05rem; font-weight: 600; }
+    .project-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.75; }
+
+    /* ── TIMELINE ── */
+    .tl-date {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      white-space: nowrap;
+      padding-top: 0.2rem;
+    }
+    .tl-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(91,106,245,0.7);
+      flex-shrink: 0;
+      margin-top: 0.35rem;
+    }
+    .tl-line {
+      width: 1px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+    .tl-role { font-size: 1rem; font-weight: 600; }
+    .tl-company { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); }
+    .tl-desc { font-size: 0.87rem; color: var(--muted); line-height: 1.75; }
+
+    /* ── DETAIL ROW ── */
+    .detail-row {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .detail-label { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.07em; text-transform: uppercase; }
+    .detail-value { font-size: 0.92rem; font-weight: 500; }
+
+    /* ── CONTACT ── */
+    .contact-link {
+      font-family: var(--mono);
+      font-size: 0.83rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 1.3rem;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--text); }
+
+    /* ── FOOTER ── */
+    footer { border-top: 1px solid var(--border); }
+    footer p { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVBAR ────────────────────────────────────────── -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">vvipwwk.dev</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav gap-lg-3">
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO ──────────────────────────────────────────── -->
+  <section id="hero" class="position-relative overflow-hidden">
+    <div class="glow-blob glow-1"></div>
+    <div class="glow-blob glow-2"></div>
+    <div class="container position-relative" style="z-index:1">
+      <div class="row">
+        <div class="col-lg-9">
+          <p class="hero-eyebrow mb-3">IT Support · Software Engineering</p>
+          <h1 class="hero-name mb-3">David <span class="gradient-text">Wong</span></h1>
+          <p class="hero-subtitle mb-2 fw-normal">IT Support @ SITA — Changi Airport</p>
+          <p class="hero-desc mb-4">
+            I build reliable systems and write code that solves real problems — from airport-grade infrastructure to full-stack applications and IoT solutions.
+          </p>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="#projects" class="btn btn-accent">View My Work <i class="bi bi-arrow-right"></i></a>
+            <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+          </div>
+
+          <div class="d-flex gap-5 flex-wrap mt-5 pt-4" style="border-top: 1px solid var(--border)">
+            <div>
+              <div class="stat-num gradient-text">3+</div>
+              <div class="stat-label">Years in IT Support</div>
+            </div>
+            <div>
+              <div class="stat-num gradient-text">8+</div>
+              <div class="stat-label">Projects Built</div>
+            </div>
+            <div>
+              <div class="stat-num gradient-text">10+</div>
+              <div class="stat-label">Technologies Used</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider m-0" />
+
+  <!-- ── ABOUT ─────────────────────────────────────────── -->
+  <section id="about" class="py-5 py-lg-6">
+    <div class="container py-4">
+      <div class="row g-5 align-items-start reveal">
+        <div class="col-lg-6">
+          <p class="section-label mb-2">About Me</p>
+          <h2 class="section-title mb-4">Infrastructure meets<br>software.</h2>
+          <p class="text-secondary lh-lg">
+            I'm an IT professional based in <strong class="text-light">Singapore</strong>, currently supporting critical systems at <strong class="text-light">Changi Airport via SITA Information Pte. Ltd.</strong> — one of the world's most demanding IT environments.
+          </p>
+          <p class="text-secondary lh-lg">
+            My background spans both ends of the stack: from racking servers and diagnosing hardware faults, to building full-stack web applications, IoT systems, and automation scripts during my university years.
+          </p>
+          <p class="text-secondary lh-lg mb-0">
+            I'm actively looking for my next opportunity in <strong class="text-light">IT Support or Software Engineering</strong> roles where I can grow, contribute, and keep building things that matter.
+          </p>
+        </div>
+        <div class="col-lg-6">
+          <div class="d-flex flex-column gap-3">
+            <div class="detail-row p-3 d-flex align-items-start gap-3">
+              <span style="font-size:1.2rem">📍</span>
+              <div>
+                <div class="detail-label">Location</div>
+                <div class="detail-value">Singapore</div>
+              </div>
+            </div>
+            <div class="detail-row p-3 d-flex align-items-start gap-3">
+              <span style="font-size:1.2rem">🏢</span>
+              <div>
+                <div class="detail-label">Current Role</div>
+                <div class="detail-value">Shift Lead, SITA Information Pte. Ltd.</div>
+              </div>
+            </div>
+            <div class="detail-row p-3 d-flex align-items-start gap-3">
+              <span style="font-size:1.2rem">🎓</span>
+              <div>
+                <div class="detail-label">Education</div>
+                <div class="detail-value">Bachelor's in Computer Science</div>
+              </div>
+            </div>
+            <div class="detail-row p-3 d-flex align-items-start gap-3">
+              <span style="font-size:1.2rem">🔍</span>
+              <div>
+                <div class="detail-label">Open To</div>
+                <div class="detail-value">IT Support · Software Engineering</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider m-0" />
+
+  <!-- ── SKILLS ─────────────────────────────────────────── -->
+  <section id="skills" class="py-5 py-lg-6">
+    <div class="container py-4">
+      <p class="section-label mb-2 reveal">Technical Skills</p>
+      <h2 class="section-title mb-2 reveal">What I work with</h2>
+      <p class="section-sub mb-5 reveal">A broad toolkit built across infrastructure work and software development.</p>
+
+      <div class="row g-3">
+        <div class="col-md-6 col-lg-4 reveal">
+          <div class="dark-card p-4 h-100">
+            <p class="skill-category mb-3">Languages</p>
+            <div>
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">C#</span>
+              <span class="skill-tag">C++</span>
+              <span class="skill-tag">VB.NET</span>
+              <span class="skill-tag">PHP</span>
+              <span class="skill-tag">HTML/CSS</span>
+              <span class="skill-tag">JavaScript</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 reveal">
+          <div class="dark-card p-4 h-100">
+            <p class="skill-category mb-3">Frameworks & Platforms</p>
+            <div>
+              <span class="skill-tag">ASP.NET</span>
+              <span class="skill-tag">Arduino IDE</span>
+              <span class="skill-tag">Mobile App Dev</span>
+              <span class="skill-tag">Bootstrap</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 reveal">
+          <div class="dark-card p-4 h-100">
+            <p class="skill-category mb-3">Infrastructure & IT</p>
+            <div>
+              <span class="skill-tag">Windows Server</span>
+              <span class="skill-tag">Active Directory</span>
+              <span class="skill-tag">Networking</span>
+              <span class="skill-tag">OS Installation</span>
+              <span class="skill-tag">Virtualization</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 reveal">
+          <div class="dark-card p-4 h-100">
+            <p class="skill-category mb-3">Hardware</p>
+            <div>
+              <span class="skill-tag">PC Building</span>
+              <span class="skill-tag">Hardware Repair</span>
+              <span class="skill-tag">Component Upgrades</span>
+              <span class="skill-tag">OS Optimization</span>
+              <span class="skill-tag">IoT Devices</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 reveal">
+          <div class="dark-card p-4 h-100">
+            <p class="skill-category mb-3">Databases & Tools</p>
+            <div>
+              <span class="skill-tag">SQL</span>
+              <span class="skill-tag">MySQL</span>
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">Figma</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 reveal">
+          <div class="dark-card p-4 h-100">
+            <p class="skill-category mb-3">Soft Skills</p>
+            <div>
+              <span class="skill-tag">Troubleshooting</span>
+              <span class="skill-tag">Documentation</span>
+              <span class="skill-tag">Client Support</span>
+              <span class="skill-tag">UX Thinking</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider m-0" />
+
+  <!-- ── PROJECTS ───────────────────────────────────────── -->
+  <section id="projects" class="py-5 py-lg-6">
+    <div class="container py-4">
+      <p class="section-label mb-2 reveal">Portfolio</p>
+      <h2 class="section-title mb-2 reveal">Things I've built</h2>
+      <p class="section-sub mb-5 reveal">A selection of software, hardware, and design projects — from university to freelance work.</p>
+
+      <div class="row g-3">
+
+        <!-- FEATURED - full width -->
+        <div class="col-12 reveal">
+          <div class="dark-card p-4">
+            <div class="row align-items-start g-3">
+              <div class="col-auto">
+                <div class="project-icon">🌐</div>
+              </div>
+              <div class="col">
+                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                  <span class="project-title">IoT Smart System with Mobile App</span>
+                  <span class="badge badge-sw text-uppercase">Software + Hardware</span>
+                </div>
+                <p class="project-desc mb-3">
+                  Built an end-to-end IoT solution combining embedded hardware programming with a companion mobile application. The system reads sensor data and delivers real-time feedback through a cross-platform mobile interface — demonstrating full-stack thinking from hardware layer to user experience.
+                </p>
+                <div>
+                  <span class="skill-tag">Arduino IDE</span>
+                  <span class="skill-tag">C++</span>
+                  <span class="skill-tag">Mobile App</span>
+                  <span class="skill-tag">IoT</span>
+                  <span class="skill-tag">Sensors</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Internet Banking -->
+        <div class="col-md-6 reveal">
+          <div class="dark-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="project-icon">🏦</div>
+              <span class="badge badge-sw text-uppercase">Software</span>
+            </div>
+            <div class="project-title mb-2">Internet Banking System</div>
+            <p class="project-desc mb-3">Developed a full-featured internet banking web application with user authentication, account management, and transaction handling — built on an enterprise-grade ASP.NET + C# stack.</p>
+            <div>
+              <span class="skill-tag">ASP.NET</span>
+              <span class="skill-tag">C#</span>
+              <span class="skill-tag">SQL</span>
+              <span class="skill-tag">Web App</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chatbot -->
+        <div class="col-md-6 reveal">
+          <div class="dark-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="project-icon">🤖</div>
+              <span class="badge badge-sw text-uppercase">Software</span>
+            </div>
+            <div class="project-title mb-2">Python Chatbot</div>
+            <p class="project-desc mb-3">Designed and developed a conversational chatbot in Python capable of handling user queries through pattern matching and basic NLP techniques.</p>
+            <div>
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">NLP</span>
+              <span class="skill-tag">Chatbot</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bookstore POS -->
+        <div class="col-md-6 col-lg-4 reveal">
+          <div class="dark-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="project-icon">📚</div>
+              <span class="badge badge-sw text-uppercase">Software</span>
+            </div>
+            <div class="project-title mb-2">Bookstore POS System</div>
+            <p class="project-desc mb-3">A point-of-sale desktop app with inventory management, sales tracking, and receipt generation — built with VB.NET backed by a relational database.</p>
+            <div>
+              <span class="skill-tag">VB.NET</span>
+              <span class="skill-tag">Database</span>
+              <span class="skill-tag">Desktop App</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Enrollment -->
+        <div class="col-md-6 col-lg-4 reveal">
+          <div class="dark-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="project-icon">🎓</div>
+              <span class="badge badge-sw text-uppercase">Software</span>
+            </div>
+            <div class="project-title mb-2">Student Enrollment Website</div>
+            <p class="project-desc mb-3">A web-based student enrollment portal built in PHP, allowing registration, course selection, and status tracking with database integration.</p>
+            <div>
+              <span class="skill-tag">PHP</span>
+              <span class="skill-tag">MySQL</span>
+              <span class="skill-tag">Web Dev</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hotel Booking -->
+        <div class="col-md-6 col-lg-4 reveal">
+          <div class="dark-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="project-icon">🏨</div>
+              <span class="badge badge-sw text-uppercase">Software</span>
+            </div>
+            <div class="project-title mb-2">Hotel Booking System</div>
+            <p class="project-desc mb-3">A console-based hotel reservation system in C++ covering room selection, booking management, and billing logic — demonstrating OOP principles.</p>
+            <div>
+              <span class="skill-tag">C++</span>
+              <span class="skill-tag">OOP</span>
+              <span class="skill-tag">Data Structures</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grab UX -->
+        <div class="col-md-6 reveal">
+          <div class="dark-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="project-icon">🎨</div>
+              <span class="badge badge-ux text-uppercase">UX Design</span>
+            </div>
+            <div class="project-title mb-2">Grab App UX Redesign</div>
+            <p class="project-desc mb-3">A UX redesign case study covering user research, pain point analysis, wireframing, and a revised interface proposal aimed at improving the booking flow.</p>
+            <div>
+              <span class="skill-tag">UX Research</span>
+              <span class="skill-tag">Wireframing</span>
+              <span class="skill-tag">Figma</span>
+              <span class="skill-tag">Case Study</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PC Freelance -->
+        <div class="col-md-6 reveal">
+          <div class="dark-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="project-icon">🖥️</div>
+              <span class="badge badge-hw text-uppercase">Hardware</span>
+            </div>
+            <div class="project-title mb-2">PC Build & Repair — Freelance</div>
+            <p class="project-desc mb-3">Ran a freelance computer technician service — building custom PCs, diagnosing hardware faults, upgrading components, and performing OS installation and optimization for clients.</p>
+            <div>
+              <span class="skill-tag">PC Building</span>
+              <span class="skill-tag">Hardware Repair</span>
+              <span class="skill-tag">OS Setup</span>
+              <span class="skill-tag">Client Work</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider m-0" />
+
+  <!-- ── EXPERIENCE ─────────────────────────────────────── -->
+  <section id="experience" class="py-5 py-lg-6">
+    <div class="container py-4">
+      <p class="section-label mb-2 reveal">Experience</p>
+      <h2 class="section-title mb-2 reveal">Where I've worked</h2>
+      <p class="section-sub mb-5 reveal">Professional background and key roles.</p>
+
+      <!-- SITA -->
+      <div class="row g-3 mb-4 reveal">
+        <div class="col-auto d-none d-md-block" style="width:140px; text-align:right">
+          <span class="tl-date">2024 — Present</span>
+        </div>
+        <div class="col-auto d-none d-md-flex flex-column align-items-center" style="width:32px">
+          <div class="tl-dot"></div>
+          <div class="tl-line flex-grow-1 mt-1"></div>
+        </div>
+        <div class="col pb-4" style="border-left: 1px solid var(--border); padding-left: 1.5rem;">
+          <div class="tl-role">IT L1 technical Support & Shift Lead</div>
+          <div class="tl-company mb-2">SITA Information Pte. Ltd. — Changi Airport, Singapore</div>
+          <p class="tl-desc mb-0">Delivered frontline technical support across all Changi Airport terminals — covering workstations, automated check-in kiosks (CUSS/CUTE), printers, passport scanners, and baggage reconciliation systems (BRS) including Hand-Held Terminal (HHT) scanner configuration and RMA processing. Utilised ServiceNow for incident ticketing and reporting, and Nexthink alongside DameWare for remote workstation management. As Shift Lead, managed a four-member team to maintain smooth daily operations, overseeing CUSS and CUTE device assignments and configurations via APC Configurator and CUSS Scheduler. Liaised directly with Changi Airport Group (CAG) via email to fulfil operational change requests, and authored RFC (Request for Change) reports for all airport operations changes. Also maintained regular asset documentation and inspection records across all terminal zones.</p>
+        </div>
+      </div>
+
+      <!-- IDMS -->
+      <div class="row g-3 mb-4 reveal">
+        <div class="col-auto d-none d-md-block" style="width:140px; text-align:right">
+          <span class="tl-date">2018 — 2020</span>
+        </div>
+        <div class="col-auto d-none d-md-flex flex-column align-items-center" style="width:32px">
+          <div class="tl-dot"></div>
+          <div class="tl-line flex-grow-1 mt-1"></div>
+        </div>
+        <div class="col pb-4" style="border-left: 1px solid var(--border); padding-left: 1.5rem;">
+          <div class="tl-role">IT Support Technician</div>
+          <div class="tl-company mb-2">IDMS Technologies Sdn. Bhd. - Seremban, Malaysia</div>
+          <p class="tl-desc mb-0">Main job scopes were handle for huge installation of multifunctional printer driver, scanner setup in many huge government and private sites or offices, also handle company's computer or IT equipment (setup, maintenance etc.)</p>
+        </div>
+      </div>
+
+      <!-- Freelance -->
+      <div class="row g-3 mb-4 reveal">
+        <div class="col-auto d-none d-md-block" style="width:140px; text-align:right">
+          <span class="tl-date">2018 — 2023</span>
+        </div>
+        <div class="col-auto d-none d-md-flex flex-column align-items-center" style="width:32px">
+          <div class="tl-dot"></div>
+          <div class="tl-line flex-grow-1 mt-1"></div>
+        </div>
+        <div class="col pb-4" style="border-left: 1px solid var(--border); padding-left: 1.5rem;">
+          <div class="tl-role">Freelance Computer Technician</div>
+          <div class="tl-company mb-2">Self-Employed (Radiant Tech PC)</div>
+          <p class="tl-desc mb-0">Provided end-to-end computer services to individual clients — diagnosing and resolving hardware and software issues, upgrading components to improve system performance, and building custom PCs tailored to each customer's needs and budget. Also handled software and game installations, as well as remote troubleshooting sessions to resolve software faults without requiring an on-site visit.</p>
+        </div>
+      </div>
+
+      <!-- University -->
+      <div class="row g-3 reveal">
+        <div class="col-auto d-none d-md-block" style="width:140px; text-align:right">
+          <span class="tl-date">2020 — 2023</span>
+        </div>
+        <div class="col-auto d-none d-md-flex flex-column align-items-center" style="width:32px">
+          <div class="tl-dot"></div>
+        </div>
+        <div class="col pb-2" style="border-left: 1px solid var(--border); padding-left: 1.5rem;">
+          <div class="tl-role">Bachelor's Degree — Computer Science</div>
+          <div class="tl-company mb-2">INTI International University</div>
+          <p class="tl-desc mb-0">Completed coursework and projects spanning software engineering, web development, IoT systems, database management, and UX design.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="section-divider m-0" />
+
+  <!-- ── CONTACT ────────────────────────────────────────── -->
+  <section id="contact" class="py-5 py-lg-6 text-center position-relative overflow-hidden">
+    <div class="glow-blob" style="width:700px;height:400px;background:radial-gradient(circle,rgba(91,106,245,0.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+    <div class="container py-4 position-relative" style="z-index:1">
+      <p class="section-label mb-2 reveal">Contact</p>
+      <h2 class="section-title mb-3 reveal" style="font-size:clamp(2rem,5vw,3.5rem)">Let's work together</h2>
+      <p class="text-secondary mb-4 reveal mx-auto" style="max-width:420px">Open to IT Support and Software Engineering opportunities in Singapore. Feel free to reach out.</p>
+      <div class="reveal mb-4">
+        <a href="mailto:wwkdavid1998@gmail.com" class="btn btn-accent">
+          <i class="bi bi-envelope me-2"></i>Send Me An Email
+        </a>
+      </div>
+      <div class="d-flex justify-content-center gap-3 flex-wrap reveal">
+        <a href="https://www.linkedin.com/in/wong-wai-kin-david1998/" class="contact-link" target="_blank">
+          <i class="bi bi-linkedin"></i> LinkedIn
+        </a>
+        <a href="https://github.com/vvipwwk" class="contact-link" target="_blank">
+          <i class="bi bi-github"></i> GitHub
+        </a>
+        <a href="https://www.instagram.com/david.wwk.77/" class="contact-link" target="_blank">
+          <i class="bi bi-file-earmark-person"></i> Instagram
+        </a>
+        <a href="https://www.facebook.com/RADIANTTECHPC" class="contact-link" target="_blank">
+          <i class="bi bi-file-earmark-person"></i> Radiant Tech PC
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="py-4 text-center">
+    <div class="container">
+      <p class="mb-0">© 2026 David Wong — All rights reserved</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      observer.observe(el);
+    });
+
+    // Stagger cards within grids
+    document.querySelectorAll('.row').forEach(row => {
+      [...row.querySelectorAll('.reveal')].forEach((el, i) => {
+        el.style.transitionDelay = `${i * 55}ms`;
+      });
+    });
+  </script>
+
+</body>
+</html>
