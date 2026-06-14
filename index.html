@@ -275,6 +275,200 @@
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1; transform: none; }
     }
+
+    /* ── PROJECT DETAIL OVERLAY ── */
+    .project-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: stretch;
+      pointer-events: none;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+    }
+    .project-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+      visibility: visible;
+      transition: opacity 0.3s ease, visibility 0s linear 0s;
+    }
+    .overlay-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px);
+    }
+    .overlay-panel {
+      position: relative;
+      margin-left: auto;
+      width: 100%;
+      max-width: 780px;
+      background: var(--bg-card);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+      transform: translateX(60px);
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+      display: flex;
+      flex-direction: column;
+    }
+    .project-overlay.open .overlay-panel {
+      transform: translateX(0);
+    }
+    .overlay-close {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background: rgba(17,17,24,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .overlay-close-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1.1rem;
+    }
+    .overlay-close-btn:hover { border-color: var(--accent); color: var(--text); }
+
+    .overlay-back-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* screenshot gallery (below highlights) */
+    .screenshot-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .screenshot-item {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0d0d14;
+    }
+    .screenshot-item img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .screenshot-caption {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.07em;
+      padding: 0.5rem 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* overlay body content */
+    .overlay-body { padding: 2rem 2rem 3rem; }
+    .overlay-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .overlay-title {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .overlay-summary {
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 0.92rem;
+    }
+    .overlay-section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .overlay-divider { border-color: var(--border); margin: 1.5rem 0; }
+
+    .highlight-box {
+      background: rgba(91,106,245,0.06);
+      border: 1px solid rgba(91,106,245,0.18);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+    .highlight-box li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .highlight-box li::marker { color: var(--accent); }
+
+    .btn-github {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-weight: 500;
+      font-size: 0.88rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-github:hover { border-color: var(--text); color: var(--text); background: rgba(255,255,255,0.04); }
+    .btn-github.disabled-link {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* View Details button on cards */
+    .btn-view-project {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background: transparent;
+      border: 1px solid rgba(91,106,245,0.3);
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+    .btn-view-project:hover {
+      background: rgba(91,106,245,0.1);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    @media (max-width: 575px) {
+      .overlay-panel { max-width: 100%; border-left: none; border-top: 1px solid var(--border); }
+      .overlay-body { padding: 1.5rem 1.25rem 2.5rem; }
+    }
   </style>
 </head>
 <body>
@@ -401,7 +595,7 @@
 
       <div class="row g-3">
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <p class="skill-category mb-3">Languages</p>
             <div>
               <span class="skill-tag">Python</span>
@@ -415,7 +609,7 @@
           </div>
         </div>
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <p class="skill-category mb-3">Frameworks & Platforms</p>
             <div>
               <span class="skill-tag">ASP.NET</span>
@@ -426,7 +620,7 @@
           </div>
         </div>
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <p class="skill-category mb-3">Infrastructure & IT</p>
             <div>
               <span class="skill-tag">Windows Server</span>
@@ -438,7 +632,7 @@
           </div>
         </div>
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <p class="skill-category mb-3">Hardware</p>
             <div>
               <span class="skill-tag">PC Building</span>
@@ -450,7 +644,7 @@
           </div>
         </div>
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <p class="skill-category mb-3">Databases & Tools</p>
             <div>
               <span class="skill-tag">SQL</span>
@@ -461,7 +655,7 @@
           </div>
         </div>
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <p class="skill-category mb-3">Soft Skills</p>
             <div>
               <span class="skill-tag">Troubleshooting</span>
@@ -501,12 +695,14 @@
                 <p class="project-desc mb-3">
                   Built an end-to-end IoT solution combining embedded hardware programming with a companion mobile application. The system reads sensor data and delivers real-time feedback through a cross-platform mobile interface — demonstrating full-stack thinking from hardware layer to user experience.
                 </p>
-                <div>
+                <div class="d-flex flex-wrap gap-2 mb-3">
                   <span class="skill-tag">Arduino IDE</span>
                   <span class="skill-tag">C++</span>
                   <span class="skill-tag">Mobile App</span>
                   <span class="skill-tag">IoT</span>
-                  <span class="skill-tag">Sensors</span>
+                  <span class="skill-tag">Sensors</span></div>
+                <div class="pt-2" style="border-top:1px solid var(--border)">
+                  <button class="btn-view-project " onclick="openProject('iot')"><i class="bi bi-arrow-right-circle"></i> View Details</button>
                 </div>
               </div>
             </div>
@@ -515,125 +711,136 @@
 
         <!-- Internet Banking -->
         <div class="col-md-6 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div class="project-icon">🏦</div>
               <span class="badge badge-sw text-uppercase">Software</span>
             </div>
             <div class="project-title mb-2">Internet Banking System</div>
             <p class="project-desc mb-3">Developed a full-featured internet banking web application with user authentication, account management, and transaction handling — built on an enterprise-grade ASP.NET + C# stack.</p>
-            <div>
+            <div class="d-flex flex-wrap gap-1 mb-3">
               <span class="skill-tag">ASP.NET</span>
               <span class="skill-tag">C#</span>
               <span class="skill-tag">SQL</span>
-              <span class="skill-tag">Web App</span>
+              <span class="skill-tag">Web App</span></div>
+            <div class="mt-auto pt-2" style="border-top:1px solid var(--border)">
+              <button class="btn-view-project " onclick="openProject('banking')"><i class="bi bi-arrow-right-circle"></i> View Details</button>
             </div>
           </div>
         </div>
 
         <!-- Chatbot -->
         <div class="col-md-6 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div class="project-icon">🤖</div>
               <span class="badge badge-sw text-uppercase">Software</span>
             </div>
-            <div class="project-title mb-2">Python Chatbot</div>
-            <p class="project-desc mb-3">Designed and developed a conversational chatbot in Python capable of handling user queries through pattern matching and basic NLP techniques.</p>
-            <div>
+            <div class="project-title mb-2">Movie Recommendation with Chatbot</div>
+            <p class="project-desc mb-3">Designed and developed a movie recommendation system with a conversational chatbot in Python capable of handling user queries through pattern matching and basic NLP techniques.</p>
+            <div class="d-flex flex-wrap gap-1 mb-3">
               <span class="skill-tag">Python</span>
               <span class="skill-tag">NLP</span>
-              <span class="skill-tag">Chatbot</span>
-              <span class="skill-tag">
-                <a href="https://github.com/vvipwwk/MovieRec---WebGUI" class="text-decoration-none" target="_blank">View the Project</a>
-              </span>
+              <span class="skill-tag">Chatbot</span></div>
+            <div class="mt-auto pt-2" style="border-top:1px solid var(--border)">
+              <button class="btn-view-project " onclick="openProject('chatbot')"><i class="bi bi-arrow-right-circle"></i> View Details</button>
             </div>
           </div>
         </div>
 
         <!-- Bookstore POS -->
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div class="project-icon">📚</div>
               <span class="badge badge-sw text-uppercase">Software</span>
             </div>
             <div class="project-title mb-2">Bookstore POS System</div>
             <p class="project-desc mb-3">A point-of-sale desktop app with inventory management, sales tracking, and receipt generation — built with VB.NET backed by a relational database.</p>
-            <div>
+            <div class="d-flex flex-wrap gap-1 mb-3">
               <span class="skill-tag">VB.NET</span>
               <span class="skill-tag">Database</span>
-              <span class="skill-tag">Desktop App</span>
+              <span class="skill-tag">Desktop App</span></div>
+            <div class="mt-auto pt-2" style="border-top:1px solid var(--border)">
+              <button class="btn-view-project " onclick="openProject('bookstore')"><i class="bi bi-arrow-right-circle"></i> View Details</button>
             </div>
           </div>
         </div>
 
         <!-- Student Enrollment -->
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div class="project-icon">🎓</div>
               <span class="badge badge-sw text-uppercase">Software</span>
             </div>
             <div class="project-title mb-2">Student Enrollment Website</div>
             <p class="project-desc mb-3">A web-based student enrollment portal built in PHP, allowing registration, course selection, and status tracking with database integration.</p>
-            <div>
+            <div class="d-flex flex-wrap gap-1 mb-3">
               <span class="skill-tag">PHP</span>
               <span class="skill-tag">MySQL</span>
-              <span class="skill-tag">Web Dev</span>
+              <span class="skill-tag">Web Dev</span></div>
+            <div class="mt-auto pt-2" style="border-top:1px solid var(--border)">
+              <button class="btn-view-project " onclick="openProject('enrollment')"><i class="bi bi-arrow-right-circle"></i> View Details</button>
             </div>
           </div>
         </div>
 
         <!-- Hotel Booking -->
         <div class="col-md-6 col-lg-4 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div class="project-icon">🏨</div>
               <span class="badge badge-sw text-uppercase">Software</span>
             </div>
             <div class="project-title mb-2">Hotel Booking System</div>
             <p class="project-desc mb-3">A console-based hotel reservation system in C++ covering room selection, booking management, and billing logic — demonstrating OOP principles.</p>
-            <div>
+            <div class="d-flex flex-wrap gap-1 mb-3">
               <span class="skill-tag">C++</span>
               <span class="skill-tag">OOP</span>
-              <span class="skill-tag">Data Structures</span>
+              <span class="skill-tag">Data Structures</span></div>
+            <div class="mt-auto pt-2" style="border-top:1px solid var(--border)">
+              <button class="btn-view-project " onclick="openProject('hotel')"><i class="bi bi-arrow-right-circle"></i> View Details</button>
             </div>
           </div>
         </div>
 
         <!-- Grab UX -->
         <div class="col-md-6 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div class="project-icon">🎨</div>
               <span class="badge badge-ux text-uppercase">UX Design</span>
             </div>
             <div class="project-title mb-2">Grab App UX Redesign</div>
             <p class="project-desc mb-3">A UX redesign case study covering user research, pain point analysis, wireframing, and a revised interface proposal aimed at improving the booking flow.</p>
-            <div>
+            <div class="d-flex flex-wrap gap-1 mb-3">
               <span class="skill-tag">UX Research</span>
               <span class="skill-tag">Wireframing</span>
               <span class="skill-tag">Figma</span>
-              <span class="skill-tag">Case Study</span>
+              <span class="skill-tag">Case Study</span></div>
+            <div class="mt-auto pt-2" style="border-top:1px solid var(--border)">
+              <button class="btn-view-project " onclick="openProject('grab')"><i class="bi bi-arrow-right-circle"></i> View Details</button>
             </div>
           </div>
         </div>
 
         <!-- PC Freelance -->
         <div class="col-md-6 reveal">
-          <div class="dark-card p-4 h-100">
+          <div class="dark-card p-4 h-100 d-flex flex-column">
             <div class="d-flex justify-content-between align-items-start mb-3">
               <div class="project-icon">🖥️</div>
               <span class="badge badge-hw text-uppercase">Hardware</span>
             </div>
             <div class="project-title mb-2">PC Build & Repair — Freelance</div>
             <p class="project-desc mb-3">Ran a freelance computer technician service — building custom PCs, diagnosing hardware faults, upgrading components, and performing OS installation and optimization for clients.</p>
-            <div>
+            <div class="d-flex flex-wrap gap-1 mb-3">
               <span class="skill-tag">PC Building</span>
               <span class="skill-tag">Hardware Repair</span>
               <span class="skill-tag">OS Setup</span>
-              <span class="skill-tag">Client Work</span>
+              <span class="skill-tag">Client Work</span></div>
+            <div class="mt-auto pt-2" style="border-top:1px solid var(--border)">
+              <button class="btn-view-project " onclick="openProject('pcrepair')"><i class="bi bi-arrow-right-circle"></i> View Details</button>
             </div>
           </div>
         </div>
@@ -755,6 +962,53 @@
     </div>
   </footer>
 
+  <!-- ── PROJECT DETAIL OVERLAY ──────────────────────────── -->
+  <div class="project-overlay" id="projectOverlay" role="dialog" aria-modal="true">
+    <div class="overlay-backdrop" onclick="closeProject()"></div>
+    <div class="overlay-panel" id="overlayPanel">
+      <!-- sticky top bar -->
+      <div class="overlay-close">
+        <span class="overlay-back-label"><i class="bi bi-grid-3x3-gap me-2"></i>Projects</span>
+        <button class="overlay-close-btn" onclick="closeProject()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+
+      <!-- body -->
+      <div class="overlay-body">
+        <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+          <span id="overlayBadge" class="badge"></span>
+          <span id="overlayYear" style="font-family:var(--mono);font-size:0.72rem;color:var(--muted);"></span>
+        </div>
+        <p class="overlay-eyebrow" id="overlayEyebrow"></p>
+        <h2 class="overlay-title" id="overlayTitle"></h2>
+        <p class="overlay-summary" id="overlaySummary"></p>
+
+        <hr class="overlay-divider">
+
+        <!-- highlights -->
+        <p class="overlay-section-label" id="highlightLabel" style="display:none">Key highlights</p>
+        <div class="highlight-box mb-4" id="overlayHighlights" style="display:none">
+          <ul class="ps-3 mb-0" id="highlightsList"></ul>
+        </div>
+
+        <!-- screenshots gallery (shown after highlights if images exist) -->
+        <div id="overlayScreenshotGallery" style="display:none">
+          <hr class="overlay-divider">
+          <p class="overlay-section-label">Screenshots</p>
+          <div class="screenshot-gallery" id="screenshotGalleryInner"></div>
+        </div>
+
+        <hr class="overlay-divider" id="stackDivider">
+
+        <!-- tech stack -->
+        <p class="overlay-section-label">Tech Stack</p>
+        <div class="mb-4" id="overlayTags"></div>
+
+        <!-- links -->
+        <div class="d-flex gap-2 flex-wrap" id="overlayLinks"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -777,6 +1031,264 @@
       [...row.querySelectorAll('.reveal')].forEach((el, i) => {
         el.style.transitionDelay = `${i * 55}ms`;
       });
+    });
+
+    // ── PROJECT DATA ──────────────────────────────────────────────
+    const projects = {
+      iot: {
+        icon: '🌐',
+        eyebrow: 'Software + Hardware',
+        title: 'IoT Smart System with Mobile App',
+        badge: 'Software + Hardware',
+        badgeClass: 'badge-sw',
+        year: '2022 — 2023',
+        summary: `An end-to-end IoT solution that bridges embedded hardware with a cross-platform mobile interface. The system reads sensor data in real time — temperature, humidity, motion — and relays it through a mobile app with live dashboards and alert notifications.\n\nThe hardware layer is programmed in C++ on Arduino IDE and interfaces directly with various sensors via I2C and serial protocols. The companion mobile app was built to display live readings and trigger actuators remotely, demonstrating a full stack from hardware to user experience.`,
+        highlights: [
+          'Embedded C++ programming with Arduino microcontroller',
+          'Real-time sensor data streaming via serial and wireless protocol',
+          'Cross-platform mobile app displaying live readings and alerts',
+          'Remote actuator control from the mobile interface',
+          'End-to-end system design from hardware to UX'
+        ],
+        tags: ['Arduino IDE', 'C++', 'Mobile App', 'IoT', 'Sensors', 'I2C', 'Serial Protocol'],
+        github: null,
+        githubLabel: 'Private Repository',
+        screenshots: [] // add paths like ['img/iot-1.png','img/iot-2.png']
+      },
+      banking: {
+        icon: '🏦',
+        eyebrow: 'Web Application',
+        title: 'Internet Banking System',
+        badge: 'Software',
+        badgeClass: 'badge-sw',
+        year: '2022',
+        summary: `A full-featured internet banking web application built on an enterprise-grade ASP.NET + C# stack. Users can register, log in securely, manage multiple accounts, perform fund transfers, and view detailed transaction histories.\n\nThe backend uses SQL Server for relational data storage with stored procedures for transaction integrity. The front end follows a clean, accessible layout with session management and role-based access controls to separate standard users from admin views.`,
+        highlights: [
+          'Secure user authentication with session management',
+          'Multi-account management and fund transfer functionality',
+          'Full transaction history with date filtering',
+          'SQL Server backend with stored procedures for data integrity',
+          'Role-based access control (user vs admin)',
+          'Input validation and basic XSS/CSRF protections'
+        ],
+        tags: ['ASP.NET', 'C#', 'SQL Server', 'Web App', 'Session Auth', 'Bootstrap'],
+        github: null,
+        githubLabel: 'Private Repository',
+        screenshots: []
+      },
+      chatbot: {
+        icon: '🤖',
+        eyebrow: 'Python Application',
+        title: 'Movie Recommendation with Chatbot',
+        badge: 'Software',
+        badgeClass: 'badge-sw',
+        year: '2022',
+        summary: `A movie recommendation system with a conversational chatbot build using Python that handles user queries through pattern matching and basic NLP techniques. The users can describe their preferences (based on movie genre, their current mood, or even movie's era) and the bot suggests relevant films.\n\nThe recommender module uses a curated dataset and cosine similarity scoring to rank matches. A lightweight web GUI was added to make the chatbot accessible in the browser without any CLI knowledge.`,
+        highlights: [
+          'Pattern-matching NLP with intent classification',
+          'Movie recommendation via cosine similarity on user preferences',
+          'Web GUI for browser-based interaction',
+          'Conversation state tracking across multiple turns',
+          'Modular design — chatbot core is decoupled from UI layer'
+        ],
+        tags: ['Python', 'NLP', 'Chatbot', 'Cosine Similarity', 'Flask', 'HTML/CSS'],
+        github: 'https://github.com/vvipwwk/MovieRec---WebGUI',
+        githubLabel: 'View on GitHub',
+        screenshots: ['img/movierec-1.png','img/movierec-2.png']
+      },
+      bookstore: {
+        icon: '📚',
+        eyebrow: 'Desktop Application',
+        title: 'Bookstore POS System',
+        badge: 'Software',
+        badgeClass: 'badge-sw',
+        year: '2021',
+        summary: `A Windows desktop point-of-sale application built with VB.NET for a bookstore scenario. Staff can browse inventory, add items to a cart, apply discounts, process sales, and print formatted receipts.\n\nThe application is backed by a relational database for live inventory tracking — stock levels decrease automatically on sale and trigger low-stock warnings. Admin users can manage the catalogue, adjust prices, and run basic sales reports.`,
+        highlights: [
+          'Full cart and checkout flow with discount support',
+          'Live inventory tracking — auto-decrements on sale',
+          'Low-stock alerts for store managers',
+          'Receipt generation with formatted print layout',
+          'Admin panel for catalogue and pricing management',
+          'Sales summary reports by date range'
+        ],
+        tags: ['VB.NET', 'SQL Server', 'Desktop App', 'Windows Forms', 'Reporting'],
+        github: null,
+        githubLabel: 'Private Repository',
+        screenshots: []
+      },
+      enrollment: {
+        icon: '🎓',
+        eyebrow: 'Web Application',
+        title: 'Student Enrollment Website',
+        badge: 'Software',
+        badgeClass: 'badge-sw',
+        year: '2021',
+        summary: `A PHP-powered web portal that handles the full student enrollment lifecycle — from initial registration through course selection and status tracking. Students submit applications online; admins review and approve or reject them through a management dashboard.\n\nMySQL stores all student records, course availability, and enrollment decisions. The system enforces capacity limits per course and sends status updates to students as their application moves through the workflow.`,
+        highlights: [
+          'End-to-end enrollment flow: register → apply → approval → confirmation',
+          'Course catalogue with real-time seat availability',
+          'Admin dashboard to review and action applications',
+          'MySQL relational schema with foreign key constraints',
+          'Basic session-based authentication for students and admins',
+          'Status tracking page visible to enrolled students'
+        ],
+        tags: ['PHP', 'MySQL', 'HTML/CSS', 'Web Dev', 'Session Auth', 'CRUD'],
+        github: null,
+        githubLabel: 'Private Repository',
+        screenshots: []
+      },
+      hotel: {
+        icon: '🏨',
+        eyebrow: 'Console Application',
+        title: 'Hotel Booking System',
+        badge: 'Software',
+        badgeClass: 'badge-sw',
+        year: '2021',
+        summary: `A console-based hotel reservation system written in C++, demonstrating core OOP principles through a practical real-world scenario. Guests can search for available rooms, make bookings, view their reservation, and check out — with an automatic billing summary generated at the end.\n\nThe system uses linked lists and classes to represent rooms, guests, and bookings. Room categories (single, double, suite) each have their own pricing logic and availability state, and admin commands allow staff to manage the room inventory.`,
+        highlights: [
+          'Object-oriented design with classes for Room, Guest, Booking, and Billing',
+          'Dynamic room availability tracking using linked lists',
+          'Multiple room categories with tier-based pricing',
+          'Automated billing calculation on checkout',
+          'Admin mode for inventory and reservation management',
+          'Clean console UI with formatted table output'
+        ],
+        tags: ['C++', 'OOP', 'Data Structures', 'Linked Lists', 'Console App'],
+        github: null,
+        githubLabel: 'Private Repository',
+        screenshots: []
+      },
+      grab: {
+        icon: '🎨',
+        eyebrow: 'UX Design Case Study',
+        title: 'Grab App UX Redesign',
+        badge: 'UX Design',
+        badgeClass: 'badge-ux',
+        year: '2022',
+        summary: `A comprehensive UX redesign case study targeting friction in the Grab ride-booking flow. The project followed a structured design thinking process: initial user research interviews, competitive benchmarking, pain-point clustering, and iterative wireframing through to a polished high-fidelity prototype in Figma.\n\nKey identified pain points included excessive taps to confirm a ride, unclear fare breakdowns, and confusing promo code entry. The redesign proposal consolidates these into a streamlined three-step booking flow with transparent pricing displayed upfront.`,
+        highlights: [
+          'User research: 5 interviews + survey synthesis',
+          'Affinity mapping of 30+ pain points into key themes',
+          'Competitive analysis against Gojek, Taxi, and Ryde',
+          'Low-fidelity wireframes for 8 core screens',
+          'High-fidelity Figma prototype with interactive flows',
+          'Proposed redesign reduces booking taps from 9 to 4'
+        ],
+        tags: ['UX Research', 'Wireframing', 'Figma', 'Case Study', 'Prototyping', 'User Interviews'],
+        github: null,
+        githubLabel: 'Figma (link coming soon)',
+        screenshots: []
+      },
+      pcrepair: {
+        icon: '🖥️',
+        eyebrow: 'Freelance — Hardware',
+        title: 'PC Build & Repair (Radiant Tech PC)',
+        badge: 'Hardware',
+        badgeClass: 'badge-hw',
+        year: '2018 — 2023',
+        summary: `Operated a freelance computer technician service under the brand Radiant Tech PC for five years, serving individual and small-business clients. Services ranged from custom PC builds tailored to gaming or workstation budgets, to hardware fault diagnosis, component upgrades, and full OS reinstallation with optimization.\n\nThe work developed strong client communication and expectation-management skills alongside hands-on technical depth — sourcing compatible components, negotiating warranties, and delivering reliable turnarounds. Remote troubleshooting sessions were also offered for software-layer issues, reducing the need for physical visits.`,
+        highlights: [
+          'Custom PC builds for gaming and workstation use cases within client budgets',
+          'Hardware fault diagnosis across CPU, RAM, GPU, storage, and PSU',
+          'Component upgrade consulting and installation (SSDs, GPUs, RAM)',
+          'Windows OS installation, driver setup, and performance optimization',
+          'Remote troubleshooting for software and driver issues',
+          'Client communication, quoting, and warranty coordination'
+        ],
+        tags: ['PC Building', 'Hardware Repair', 'OS Setup', 'Windows', 'Client Work', 'Diagnostics'],
+        github: null,
+        githubLabel: null,
+        screenshots: []
+      }
+    };
+
+    // ── OVERLAY LOGIC ─────────────────────────────────────────────
+    let currentProject = null;
+
+    function openProject(id) {
+      const p = projects[id];
+      if (!p) return;
+      currentProject = id;
+
+      // eyebrow & title (icon is set inside buildScreenshots)
+      document.getElementById('overlayEyebrow').textContent = p.eyebrow;
+      document.getElementById('overlayTitle').textContent = p.title;
+
+      // badge
+      const badge = document.getElementById('overlayBadge');
+      badge.textContent = p.badge;
+      badge.className = 'badge ' + p.badgeClass;
+
+      document.getElementById('overlayYear').textContent = p.year;
+
+      // summary — convert \n\n to paragraphs
+      document.getElementById('overlaySummary').innerHTML =
+        p.summary.split('\n\n').map(para => `<p class="overlay-summary mb-3">${para}</p>`).join('');
+
+      // highlights
+      const hlBox   = document.getElementById('overlayHighlights');
+      const hlLabel = document.getElementById('highlightLabel');
+      if (p.highlights && p.highlights.length) {
+        hlBox.style.display = '';
+        hlLabel.style.display = '';
+        document.getElementById('highlightsList').innerHTML =
+          p.highlights.map(h => `<li>${h}</li>`).join('');
+      } else {
+        hlBox.style.display = 'none';
+        hlLabel.style.display = 'none';
+      }
+
+      // tags
+      document.getElementById('overlayTags').innerHTML =
+        p.tags.map(t => `<span class="skill-tag">${t}</span>`).join('');
+
+      // links
+      const linksEl = document.getElementById('overlayLinks');
+      if (p.github) {
+        linksEl.innerHTML = `<a href="${p.github}" class="btn-github" target="_blank"><i class="bi bi-github"></i> ${p.githubLabel || 'View on GitHub'}</a>`;
+      } else if (p.githubLabel) {
+        linksEl.innerHTML = `<span class="btn-github disabled-link"><i class="bi bi-github"></i> ${p.githubLabel}</span>`;
+      } else {
+        linksEl.innerHTML = '';
+      }
+
+      // screenshots gallery below highlights
+      buildScreenshots(p.screenshots);
+
+      // open overlay
+      document.getElementById('projectOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('overlayPanel').scrollTop = 0;
+    }
+
+    function buildScreenshots(shots) {
+      const gallery      = document.getElementById('overlayScreenshotGallery');
+      const galleryInner = document.getElementById('screenshotGalleryInner');
+
+      if (!shots || shots.length === 0) {
+        gallery.style.display = 'none';
+        return;
+      }
+
+      galleryInner.innerHTML = shots.map((src, i) => `
+        <div class="screenshot-item">
+          <img src="${src}" alt="Screenshot ${i + 1}" loading="lazy" />
+          <div class="screenshot-caption">Screenshot ${i + 1} of ${shots.length}</div>
+        </div>`).join('');
+
+      gallery.style.display = '';
+    }
+
+    function closeProject() {
+      document.getElementById('projectOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+      currentProject = null;
+    }
+
+    // close on Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeProject();
     });
   </script>
 
